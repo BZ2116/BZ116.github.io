@@ -1,4 +1,3 @@
-
 let container = document.getElementsByClassName("container")[0];
 let container2 = document.getElementsByClassName("container2")[0];
 //nav
@@ -50,6 +49,7 @@ let lishi = document.getElementsByClassName("lishisousuo")[0];
 let searchres0 = document.getElementsByClassName("searchres")[0];
 let searchres = document.getElementsByClassName("searchres")[0];
 let remensities = document.getElementsByClassName("remencities");
+let his = document.getElementsByClassName("history");
 function airqu(air) {
   let airquality;
   if (air > 0 && air <= 50) {
@@ -170,11 +170,18 @@ async function start0(str) {
     wind[i * 2 + 1].innerHTML = data1.data[i].win_speed;
     lsicon[i].src = weatherpic(data1.data[i].wea_img)
     dates[i + 2].innerHTML = data1.data[i].date.match(/2023-(\S*)/)[1];
-    // weathers1[i].innerHTML = String(data1.data[i].wea);
   }
 }
-
-
+//天气字符处理
+function strfind(str) {
+  let ind1 = str.indexOf("市");
+  let ind2 = str.indexOf(" ");
+  if (ind1 == str.length - 1) {
+    return str.slice(ind2 + 1, ind1);
+  } else {
+    return str.slice(0, ind1);
+  }
+}
 async function start1(data0) {
   res3 = await fetch(
     "https://devapi.qweather.com/v7/weather/24h?location=" + data0.cityid + "&key=6e5a51389e4f4ed294d6e34cf66ff8fc",
@@ -297,11 +304,9 @@ sousuoimg.addEventListener('click', debounce(function () {
   // searchres0.style.display="block";
   startsearch2();
   if (count == 0) {
-    let his = document.createElement("a");
-    his.className = "history";
-    lishi.insertAdjacentElement("afterend", his);
+    his[0].style.display = "block";
     count++;
-    his.innerHTML = sousuo.value;
+    his[0].innerHTML = sousuo.value;
   } else {
     let his0 = document.getElementsByClassName("history");
     if (count < 3) {
@@ -310,10 +315,25 @@ sousuoimg.addEventListener('click', debounce(function () {
       lishi.insertAdjacentElement("afterend", his);
       count++;
       his.innerHTML = sousuo.value;
+      his.onclick = function () {
+        container.style.display = "block";
+        container2.style.display = "none";
+        searchres0.style.display = "none";
+        sousuo.value = null;
+        start0(his.innerHTML);
+      }
     } else {
       his0[2].innerHTML = his0[1].innerHTML;
       his0[1].innerHTML = his0[0].innerHTML;
       his0[0].innerHTML = sousuo.value;
+
+      his.onclick = function () {
+        container.style.display = "block";
+        container2.style.display = "none";
+        searchres0.style.display = "none";
+        sousuo.value = null;
+        start0(his.innerHTML);
+      }
     }
   }
 }, 600))
@@ -332,18 +352,26 @@ searchres.onclick = function () {
   container2.style.display = "none";
   searchres0.style.display = "none";
   sousuo.value = null;
-  start0(searchres.innerHTML);
+  start0(strfind(searchres.innerHTML));
 }
 
-for (i = 0; i < 12; i++) {
+for (let i = 0; i < his.length; i++) {
+  his[i].onclick = function () {
+    container.style.display = "block";
+    container2.style.display = "none";
+    searchres0.style.display = "none";
+    sousuo.value = null;
+    start0(his[i].innerHTML);
+  }
+}
+
+for (let i = 0; i < 12; i++) {
   remensities[i].onclick = function () {
     container.style.display = "block";
     container2.style.display = "none";
     searchres0.style.display = "none";
     sousuo.value = null;
-    start0(remensities[i].innerHTML);
+    start0(str = remensities[i].innerHTML);
   }
 }
-
-
 start0(str = "");
