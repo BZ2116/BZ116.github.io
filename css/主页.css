@@ -9,6 +9,7 @@ html {
   -webkit-tap-highlight-color: transparent;
   box-sizing: border-box;
   overflow-x: hidden;
+  cursor: default;
 }
 
 li {
@@ -119,6 +120,7 @@ ul {
 .temp {
   color: #000000;
   position: relative;
+  /* text-align:center; */
   left: 42%;
   top: 20%;
   font-size: 62px;
@@ -129,7 +131,7 @@ ul {
 .weather0 {
   color: #000000;
   position: relative;
-  left: 44.5%;
+  text-align: center;
   top: 16%;
   font-size: 20px;
   line-height: 62px;
@@ -139,7 +141,7 @@ ul {
 .wea-detail {
   color: #000000;
   position: relative;
-  left: 44%;
+  text-align: center;
   top: 12%;
   font-size: 12px;
   line-height: 20px;
